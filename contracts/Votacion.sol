@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-contract Elecciones {
+contract Votacion {
     // Propiedades del Votante
     struct Votante {
         string apellido; // Se puede cambiar por una direccion de Ethereum
@@ -10,6 +10,12 @@ contract Elecciones {
         bool voto;
         uint256 pesoVoto; // Se hace con peso del voto ya que podria delegarse el voto entonces el pesos seria 2 | 3 | 4 etc
     }
+    event MesaAbierta(
+        uint256 dni,
+        string apellido,
+        string nombre,
+        address billetera
+    );
 
     // Propiedades de la propuesta electoral
     struct Propuesta {
@@ -42,6 +48,7 @@ contract Elecciones {
         votantes[presidenteMesa].nombre = _nombre;
         votantes[presidenteMesa].apellido = _apellido;
         votantes[presidenteMesa].billetera = msg.sender;
+        emit MesaAbierta(_dni, _nombre, _apellido, msg.sender);
     }
 
     // Funcion para autorizar el voto
